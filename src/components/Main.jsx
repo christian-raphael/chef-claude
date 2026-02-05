@@ -2,6 +2,7 @@ import React from 'react'
 
 export default function Main() {
     const [ingredients, setIngredients] = React.useState([])
+    const [recipeShown, setRecipeShown] = React.useState(false)
 
     const ingredientsListItems = ingredients.map(ingredient => (
         <li key={ingredient}>{ingredient}</li>
@@ -10,6 +11,10 @@ export default function Main() {
     function addIngredient(formData) {
         const newIngredient = formData.get("ingredient")
         setIngredients(prevIngredients => [...prevIngredients, newIngredient])
+    }
+
+    function toggleRecipeShown() {
+        setRecipeShown(prevRecipeShown => !prevRecipeShown)
     }
 
     return (
@@ -35,9 +40,15 @@ export default function Main() {
                                 <h3>Ready for a recipe?</h3>
                                 <p>Generate a recipe from your list of ingredients.</p>
                             </div>
-                            <button>Get a recipe</button>
+                            <button onClick={toggleRecipeShown}>Get a recipe</button>
                         </div>
                     }
+                </section>
+            }
+            {
+                recipeShown &&
+                <section>
+                    recipe here
                 </section>
             }
         </main>
