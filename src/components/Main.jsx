@@ -6,6 +6,20 @@ import { getRecipeFromChefClaude, getRecipeFromMistral } from '../ai'
 export default function Main() {
     const [ingredients, setIngredients] = React.useState([])
     const [recipe, setRecipe] = React.useState("")
+    const recipeSection = React.useRef(null)
+
+    React.useEffect(() => {
+        if (recipe !== "" && recipeSection.current !== null) {
+            // It works in browsers or enviroments that not use iframes
+            // recipeSection.current.scrollIntoView({behavior: "smooth"}) 
+
+            const yCoord = recipeSection.current.getBoundingClientRect().top
+            window.scroll({
+                top: yCoord,
+                behavior: "smooth"
+            })
+        }
+    }, [recipe])
 
     function addIngredient(formData) {
         const newIngredient = formData.get("ingredient")
@@ -30,7 +44,10 @@ export default function Main() {
             </form>
             {
                 ingredients.length > 0 && 
-                <IngredientsList ingredients={ingredients} toggleRecipeShown={getRecipe}/>
+                <IngredientsList 
+                    ingredients={ingredients} 
+                    toggleRecipeShown={getRecipe} 
+                    ref={recipeSection}/>
             }
             {
                 recipe &&
